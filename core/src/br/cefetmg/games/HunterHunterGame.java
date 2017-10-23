@@ -59,7 +59,7 @@ public class HunterHunterGame extends ApplicationAdapter {
         viewport = new ScreenViewport(camera);
 
         // Carrega o mapa
-        tiledMap = LevelManager.LoadLevel("greed-island.tmx");
+        tiledMap = LevelManager.LoadLevel("tp-mapa-teste.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, batch);
         graphRenderer = new GraphRenderer(batch, shapeRenderer);
         graphRenderer.renderGraphToTexture(LevelManager.graph);
