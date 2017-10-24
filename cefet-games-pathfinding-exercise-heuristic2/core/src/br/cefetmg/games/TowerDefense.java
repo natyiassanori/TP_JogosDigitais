@@ -21,7 +21,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class HunterHunterGame extends ApplicationAdapter {
+public class TowerDefense extends ApplicationAdapter {
 
     private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
@@ -41,8 +41,8 @@ public class HunterHunterGame extends ApplicationAdapter {
     private MetricsRenderer metricsRenderer;
     private boolean showingMetrics;
 
-    public HunterHunterGame() {
-        this.windowTitle = "Hunter x Hunter (%d)";
+    public TowerDefense() {
+        this.windowTitle = "TowerDefense (%d)";
         showingMetrics = true;
     }
 

@@ -23,7 +23,9 @@ public class GraphGenerator {
         for (int i = 0; i < LevelManager.verticalTiles; i++) {
             for (int j = 0; j < LevelManager.horizontalTiles; j++) {
                 TileNode newNode = new TileNode();
-              newNode.setPosition(
+                newNode.setIsObstacle(isObstacle(map, j, i));
+                newNode.setIsWater(isWater(map, j, i));
+                newNode.setPosition(
                         new Vector2(
                                 j * LevelManager.tileWidth + LevelManager.tileWidth / 2,
                                 i * LevelManager.tileHeight + LevelManager.tileHeight / 2
@@ -33,14 +35,12 @@ public class GraphGenerator {
                 nodes.add(newNode);
             }
         }
-        
-        
+
         for (int i = 0; i < floor.getHeight(); i++) {
             for (int j = 0; j < floor.getWidth(); j++) {
                 if (nodes.get(i * LevelManager.horizontalTiles + j).isObstacle()) {
                     continue;
                 }
-                
                 connectWith(j, i, nodes, map, 1, 0);
                 connectWith(j, i, nodes, map, 1, 1);
                 connectWith(j, i, nodes, map, 0, 1);
@@ -91,14 +91,14 @@ public class GraphGenerator {
 
     private static Array<Cell> getCellsAt(TiledMap map, int j, int i) {
         TiledMapTileLayer floor = (TiledMapTileLayer) map.getLayers().get(0);
-        //TiledMapTileLayer objects = (TiledMapTileLayer) map.getLayers().get(1);
+        TiledMapTileLayer objects = (TiledMapTileLayer) map.getLayers().get(1);
 
         Array<Cell> cells = new Array<>(2);
         Cell floorCell = floor.getCell(j, i);
-        //Cell objectCell = objects.getCell(j, i);
+        Cell objectCell = objects.getCell(j, i);
         
         if (floorCell != null) cells.add(floorCell);
-        //if (objectCell != null) cells.add(objectCell);
+        if (objectCell != null) cells.add(objectCell);
 
         return cells;
     }
