@@ -55,28 +55,32 @@ public class GraphGenerator {
     }
     
     public static TileGraph generateGraphAgain( Array<TileNode> nodes , TiledMap map) {
-        Array<TileNode> nodes2 = new Array<>();       
+        Array<TileNode> nodes2 = new Array<>();
         for (int i = 0; i < aux1; i++) {
             for (int j = 0; j < aux2; j++) {
                 TileNode Copia = nodes.get(i * LevelManager.horizontalTiles + j);
                 TileNode Aux = new TileNode(Copia.getPosition());
                 Aux.setIsObstacle( Copia.isObstacle() );
                 nodes2.add(Aux);
+            }
+        }
+        for (int i = 0; i < aux1; i++) {
+            for (int j = 0; j < aux2; j++) {
+                TileNode Copia = nodes2.get(i * LevelManager.horizontalTiles + j);
                 if (Copia.isObstacle()){
                     continue;
                 }
-                connectWith(j, i, nodes, map, 1, 0);
-                connectWith(j, i, nodes, map, 1, 1);
-                connectWith(j, i, nodes, map, 0, 1);
-                connectWith(j, i, nodes, map, -1, 1);
-                connectWith(j, i, nodes, map, -1, 0);
-                connectWith(j, i, nodes, map, -1, -1);
-                connectWith(j, i, nodes, map, 0, -1);
-                connectWith(j, i, nodes, map, 1, -1);
+                connectWith(j, i, nodes2, map, 1, 0);
+                connectWith(j, i, nodes2, map, 1, 1);
+                connectWith(j, i, nodes2, map, 0, 1);
+                connectWith(j, i, nodes2, map, -1, 1);
+                connectWith(j, i, nodes2, map, -1, 0);
+                connectWith(j, i, nodes2, map, -1, -1);
+                connectWith(j, i, nodes2, map, 0, -1);
+                connectWith(j, i, nodes2, map, 1, -1);
             }
         }
-
-        return new TileGraph(nodes);
+        return new TileGraph(nodes2);
     }
 
     private static int connectWith(int j, int i, Array<TileNode> nodes, 

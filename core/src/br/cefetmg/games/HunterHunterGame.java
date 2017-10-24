@@ -119,20 +119,20 @@ public class HunterHunterGame extends ApplicationAdapter {
                 viewport.unproject(clique);
                 
                 // Botão ESQUERDO: posiciona objetivo
-                if (constructionMode){
+                
+                //else if(upgradeMode)
+                    //torre.upgradeTorre((int) clique.x , (int) clique.y);
+                if (button == Input.Buttons.LEFT) {
+                    if (constructionMode){
                     //Torre Aux = new Torre();
                     //Aux.setTorre((int) clique.x, (int) clique.y);
                     //torres.add(Aux);
-                    System.out.println("Era para ter ficado como Obstaculo");
-                    LevelManager.graph.getNodeAtCoordinates((int) clique.x, (int) clique.y).setIsObstacle(true);
-                    LevelManager.setGraph( GraphGenerator.generateGraphAgain(LevelManager.graph.getAllNodes(),LevelManager.tiledMap));
-                    constructionMode=!constructionMode;
-                }
-                //else if(upgradeMode)
-                    //torre.upgradeTorre((int) clique.x , (int) clique.y);
-                    
-                if (button == Input.Buttons.LEFT) {
-                    agent.setGoal((int) clique.x, (int) clique.y);
+                        System.out.println("Era para ter ficado como Obstaculo");
+                        LevelManager.graph.getNodeAtCoordinates((int) clique.x, (int) clique.y).setIsObstacle(true);
+                        LevelManager.setGraph( GraphGenerator.generateGraphAgain(LevelManager.graph.getAllNodes(),LevelManager.tiledMap));
+                        constructionMode=!constructionMode;
+                    }else
+                        agent.setGoal((int) clique.x, (int) clique.y);
                 }
                 return true;
             }
