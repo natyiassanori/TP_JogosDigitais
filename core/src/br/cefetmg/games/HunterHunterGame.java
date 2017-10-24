@@ -1,5 +1,6 @@
 package br.cefetmg.games;
 
+import static br.cefetmg.games.LevelManager.graph;
 import br.cefetmg.games.graphics.GraphRenderer;
 import br.cefetmg.games.graphics.AgentRenderer;
 import br.cefetmg.games.graphics.MetricsRenderer;
@@ -49,6 +50,10 @@ public class HunterHunterGame extends ApplicationAdapter {
         showingMetrics = true;
     }
 
+    public GraphRenderer getGraphRenderer() {
+        return graphRenderer;
+    }
+    
     @Override
     public void create() {
         batch = new SpriteBatch();
@@ -130,6 +135,7 @@ public class HunterHunterGame extends ApplicationAdapter {
                         System.out.println("Era para ter ficado como Obstaculo");
                         LevelManager.graph.getNodeAtCoordinates((int) clique.x, (int) clique.y).setIsObstacle(true);
                         LevelManager.setGraph( GraphGenerator.generateGraphAgain(LevelManager.graph.getAllNodes(),LevelManager.tiledMap));
+                         graphRenderer.renderGraphToTexture(LevelManager.graph);
                         constructionMode=!constructionMode;
                     }else
                         agent.setGoal((int) clique.x, (int) clique.y);

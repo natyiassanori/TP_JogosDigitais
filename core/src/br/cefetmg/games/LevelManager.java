@@ -38,6 +38,7 @@ public class LevelManager {
     }
     
     public static void setGraph(TileGraph a){
+        System.out.println("funcionou ???");
         graph = a;
     } 
 }
