@@ -3,6 +3,7 @@ package br.cefetmg.games;
 import br.cefetmg.games.graphics.GraphRenderer;
 import br.cefetmg.games.graphics.AgentRenderer;
 import br.cefetmg.games.graphics.MetricsRenderer;
+import br.cefetmg.games.pathfinding.GraphGenerator;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -20,6 +21,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import java.util.ArrayList;
 
 public class HunterHunterGame extends ApplicationAdapter {
 
@@ -35,9 +37,10 @@ public class HunterHunterGame extends ApplicationAdapter {
 
     private Agent agent;
     private AgentRenderer agentRenderer;
-
+    private ArrayList<Torre> torres = new ArrayList<Torre>();
     private final String windowTitle;
     private boolean debugMode = false;
+    private boolean constructionMode = false;
     private MetricsRenderer metricsRenderer;
     private boolean showingMetrics;
 
@@ -104,6 +107,9 @@ public class HunterHunterGame extends ApplicationAdapter {
                 if (keycode == Input.Keys.D) {
                     debugMode = !debugMode;
                 }
+                if (keycode == Input.Keys.C){
+                    constructionMode = !constructionMode;
+                }
                 return false;
             }
 
@@ -111,8 +117,20 @@ public class HunterHunterGame extends ApplicationAdapter {
             public boolean touchDown(int x, int y, int pointer, int button) {
                 Vector2 clique = new Vector2(x, y);
                 viewport.unproject(clique);
-
+                
                 // Botão ESQUERDO: posiciona objetivo
+                if (constructionMode){
+                    //Torre Aux = new Torre();
+                    //Aux.setTorre((int) clique.x, (int) clique.y);
+                    //torres.add(Aux);
+                    System.out.println("Era para ter ficado como Obstaculo");
+                    LevelManager.graph.getNodeAtCoordinates((int) clique.x, (int) clique.y).setIsObstacle(true);
+                    LevelManager.setGraph( GraphGenerator.generateGraphAgain(LevelManager.graph.getAllNodes(),LevelManager.tiledMap));
+                    constructionMode=!constructionMode;
+                }
+                //else if(upgradeMode)
+                    //torre.upgradeTorre((int) clique.x , (int) clique.y);
+                    
                 if (button == Input.Buttons.LEFT) {
                     agent.setGoal((int) clique.x, (int) clique.y);
                 }

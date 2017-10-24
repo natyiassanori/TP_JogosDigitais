@@ -37,4 +37,7 @@ public class LevelManager {
         return tiledMap;
     }
     
+    public static void setGraph(TileGraph a){
+        graph = a;
+    } 
 }

@@ -14,12 +14,12 @@ import com.badlogic.gdx.utils.Array;
  * @author Flávio Coutinho <fegemo@gmail.com>
  */
 public class GraphGenerator {
-
+    public static int aux1,aux2;
     public static TileGraph generateGraph(TiledMap map) {
         Array<TileNode> nodes = new Array<>();
         TiledMapTileLayer floor = (TiledMapTileLayer) map.getLayers().get(0);
-//        TiledMapTileLayer objects = (TiledMapTileLayer) map.getLayers().get(1);
-
+        //TiledMapTileLayer objects = (TiledMapTileLayer) map.getLayers().get(1);
+        
         for (int i = 0; i < LevelManager.verticalTiles; i++) {
             for (int j = 0; j < LevelManager.horizontalTiles; j++) {
                 TileNode newNode = new TileNode();
@@ -33,14 +33,38 @@ public class GraphGenerator {
                 nodes.add(newNode);
             }
         }
-        
-        
+        aux1 = floor.getHeight();
+        aux2 = floor.getWidth();
         for (int i = 0; i < floor.getHeight(); i++) {
             for (int j = 0; j < floor.getWidth(); j++) {
                 if (nodes.get(i * LevelManager.horizontalTiles + j).isObstacle()) {
                     continue;
+            }
+                connectWith(j, i, nodes, map, 1, 0);
+                connectWith(j, i, nodes, map, 1, 1);
+                connectWith(j, i, nodes, map, 0, 1);
+                connectWith(j, i, nodes, map, -1, 1);
+                connectWith(j, i, nodes, map, -1, 0);
+                connectWith(j, i, nodes, map, -1, -1);
+                connectWith(j, i, nodes, map, 0, -1);
+                connectWith(j, i, nodes, map, 1, -1);
+            }
+        }
+
+        return new TileGraph(nodes);
+    }
+    
+    public static TileGraph generateGraphAgain( Array<TileNode> nodes , TiledMap map) {
+        Array<TileNode> nodes2 = new Array<>();       
+        for (int i = 0; i < aux1; i++) {
+            for (int j = 0; j < aux2; j++) {
+                TileNode Copia = nodes.get(i * LevelManager.horizontalTiles + j);
+                TileNode Aux = new TileNode(Copia.getPosition());
+                Aux.setIsObstacle( Copia.isObstacle() );
+                nodes2.add(Aux);
+                if (Copia.isObstacle()){
+                    continue;
                 }
-                
                 connectWith(j, i, nodes, map, 1, 0);
                 connectWith(j, i, nodes, map, 1, 1);
                 connectWith(j, i, nodes, map, 0, 1);
