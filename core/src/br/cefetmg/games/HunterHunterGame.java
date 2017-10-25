@@ -109,6 +109,10 @@ public class HunterHunterGame extends ApplicationAdapter {
                 if (keycode == Input.Keys.M) {
                     showingMetrics = !showingMetrics;
                 }
+                if (keycode == Input.Keys.G) {
+                    graphRenderer = new GraphRenderer(batch, shapeRenderer);
+                    graphRenderer.renderGraphToTexture(LevelManager.graph);
+                }
                 if (keycode == Input.Keys.D) {
                     debugMode = !debugMode;
                 }
@@ -135,7 +139,8 @@ public class HunterHunterGame extends ApplicationAdapter {
                         System.out.println("Era para ter ficado como Obstaculo");
                         LevelManager.graph.getNodeAtCoordinates((int) clique.x, (int) clique.y).setIsObstacle(true);
                         LevelManager.setGraph( GraphGenerator.generateGraphAgain(LevelManager.graph.getAllNodes(),LevelManager.tiledMap));
-                         graphRenderer.renderGraphToTexture(LevelManager.graph);
+                        graphRenderer = new GraphRenderer(batch, shapeRenderer);
+                        graphRenderer.renderGraphToTexture(LevelManager.graph);
                         constructionMode=!constructionMode;
                     }else
                         agent.setGoal((int) clique.x, (int) clique.y);
