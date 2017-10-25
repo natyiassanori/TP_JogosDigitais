@@ -59,7 +59,7 @@ public class HunterHunterGame extends ApplicationAdapter {
         viewport = new ScreenViewport(camera);
 
         // Carrega o mapa
-        tiledMap = LevelManager.LoadLevel("greed-island.tmx");
+        tiledMap = LevelManager.LoadLevel("teste.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, batch);
         graphRenderer = new GraphRenderer(batch, shapeRenderer);
         graphRenderer.renderGraphToTexture(LevelManager.graph);
@@ -67,14 +67,15 @@ public class HunterHunterGame extends ApplicationAdapter {
         agentRenderer = new AgentRenderer(batch, camera, new Texture("gon.png"));
         agent = new Agent(
                 new Vector2(
-                        LevelManager.tileWidth / 2,
-                        (float) Math.random() * LevelManager.totalPixelHeight),
+                        LevelManager.tileWidth / 2, LevelManager.totalPixelHeight/2),
                 Color.FIREBRICK
         );
 
         metricsRenderer = new MetricsRenderer(batch, shapeRenderer,
                 new BitmapFont());
 
+        agent.setGoal(LevelManager.totalPixelWidth-1, LevelManager.totalPixelHeight/2);
+		
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyUp(int keycode) {
@@ -107,17 +108,6 @@ public class HunterHunterGame extends ApplicationAdapter {
                 return false;
             }
 
-            @Override
-            public boolean touchDown(int x, int y, int pointer, int button) {
-                Vector2 clique = new Vector2(x, y);
-                viewport.unproject(clique);
-
-                // Botão ESQUERDO: posiciona objetivo
-                if (button == Input.Buttons.LEFT) {
-                    agent.setGoal((int) clique.x, (int) clique.y);
-                }
-                return true;
-            }
         });
     }
 
