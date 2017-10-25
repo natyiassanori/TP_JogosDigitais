@@ -108,10 +108,19 @@ public class Agent {
 
             @Override
             public float estimate(TileNode n, TileNode n1) {
-                throw new UnsupportedOperationException("Deveria ter retornado "
-                        + "um valor para a heurística no arquivo "
-                        + "Agent.java:107, mas o professor resolveu explodir "
-                        + "o programa e deixar você consertar ;)"); 
+                float xn = n.getPosition().x/LevelManager.tileWidth;
+                float yn = n.getPosition().y/LevelManager.tileHeight;
+                
+                float xn1 = n1.getPosition().x/LevelManager.tileWidth;
+                float yn1 = n1.getPosition().y/LevelManager.tileHeight;
+                
+                float dx = Math.abs(xn-xn1);
+                float dy = Math.abs(yn-yn1);
+                float diagonal = (float)Math.sqrt(2);
+                
+                float percurso = Math.max(dx,dy)+(diagonal-1)*Math.min(dx, dy);
+                
+                return percurso;
             }
         }, path);
         pathIterator = path.iterator();
