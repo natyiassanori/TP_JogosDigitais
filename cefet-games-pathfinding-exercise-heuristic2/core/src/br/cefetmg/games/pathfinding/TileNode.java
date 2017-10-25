@@ -20,10 +20,6 @@ public class TileNode {
         index = Incrementer.nextIndex();
         position = Vector2.Zero;
     }
-    public TileNode(Vector2 a) {
-        index = Incrementer.nextIndex();
-        position = a;
-    }
     
     public int getIndex() {
         return index;

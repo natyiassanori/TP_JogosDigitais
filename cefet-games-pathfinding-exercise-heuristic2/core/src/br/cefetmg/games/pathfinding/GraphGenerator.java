@@ -14,16 +14,18 @@ import com.badlogic.gdx.utils.Array;
  * @author Flávio Coutinho <fegemo@gmail.com>
  */
 public class GraphGenerator {
-    public static int aux1,aux2;
+
     public static TileGraph generateGraph(TiledMap map) {
         Array<TileNode> nodes = new Array<>();
         TiledMapTileLayer floor = (TiledMapTileLayer) map.getLayers().get(0);
-        //TiledMapTileLayer objects = (TiledMapTileLayer) map.getLayers().get(1);
-        
+//        TiledMapTileLayer objects = (TiledMapTileLayer) map.getLayers().get(1);
+
         for (int i = 0; i < LevelManager.verticalTiles; i++) {
             for (int j = 0; j < LevelManager.horizontalTiles; j++) {
                 TileNode newNode = new TileNode();
-              newNode.setPosition(
+                newNode.setIsObstacle(isObstacle(map, j, i));
+                newNode.setIsWater(isWater(map, j, i));
+                newNode.setPosition(
                         new Vector2(
                                 j * LevelManager.tileWidth + LevelManager.tileWidth / 2,
                                 i * LevelManager.tileHeight + LevelManager.tileHeight / 2
@@ -33,13 +35,12 @@ public class GraphGenerator {
                 nodes.add(newNode);
             }
         }
-        aux1 = floor.getHeight();
-        aux2 = floor.getWidth();
+
         for (int i = 0; i < floor.getHeight(); i++) {
             for (int j = 0; j < floor.getWidth(); j++) {
                 if (nodes.get(i * LevelManager.horizontalTiles + j).isObstacle()) {
                     continue;
-            }
+                }
                 connectWith(j, i, nodes, map, 1, 0);
                 connectWith(j, i, nodes, map, 1, 1);
                 connectWith(j, i, nodes, map, 0, 1);
@@ -52,35 +53,6 @@ public class GraphGenerator {
         }
 
         return new TileGraph(nodes);
-    }
-    
-    public static TileGraph generateGraphAgain( Array<TileNode> nodes , TiledMap map) {
-        Array<TileNode> nodes2 = new Array<>();
-        for (int i = 0; i < aux1; i++) {
-            for (int j = 0; j < aux2; j++) {
-                TileNode Copia = nodes.get(i * LevelManager.horizontalTiles + j);
-                TileNode Aux = new TileNode(Copia.getPosition());
-                Aux.setIsObstacle( Copia.isObstacle() );
-                nodes2.add(Aux);
-            }
-        }
-        for (int i = 0; i < aux1; i++) {
-            for (int j = 0; j < aux2; j++) {
-                TileNode Copia = nodes2.get(i * LevelManager.horizontalTiles + j);
-                if (Copia.isObstacle()){
-                    continue;
-                }
-                connectWith(j, i, nodes2, map, 1, 0);
-                connectWith(j, i, nodes2, map, 1, 1);
-                connectWith(j, i, nodes2, map, 0, 1);
-                connectWith(j, i, nodes2, map, -1, 1);
-                connectWith(j, i, nodes2, map, -1, 0);
-                connectWith(j, i, nodes2, map, -1, -1);
-                connectWith(j, i, nodes2, map, 0, -1);
-                connectWith(j, i, nodes2, map, 1, -1);
-            }
-        }
-        return new TileGraph(nodes2);
     }
 
     private static int connectWith(int j, int i, Array<TileNode> nodes, 
@@ -119,14 +91,14 @@ public class GraphGenerator {
 
     private static Array<Cell> getCellsAt(TiledMap map, int j, int i) {
         TiledMapTileLayer floor = (TiledMapTileLayer) map.getLayers().get(0);
-        //TiledMapTileLayer objects = (TiledMapTileLayer) map.getLayers().get(1);
+        TiledMapTileLayer objects = (TiledMapTileLayer) map.getLayers().get(1);
 
         Array<Cell> cells = new Array<>(2);
         Cell floorCell = floor.getCell(j, i);
-        //Cell objectCell = objects.getCell(j, i);
+        Cell objectCell = objects.getCell(j, i);
         
         if (floorCell != null) cells.add(floorCell);
-        //if (objectCell != null) cells.add(objectCell);
+        if (objectCell != null) cells.add(objectCell);
 
         return cells;
     }

@@ -37,8 +37,4 @@ public class LevelManager {
         return tiledMap;
     }
     
-    public static void setGraph(TileGraph a){
-        System.out.println("funcionou ???");
-        graph = a;
-    } 
 }

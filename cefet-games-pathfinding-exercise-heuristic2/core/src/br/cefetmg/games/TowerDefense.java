@@ -1,10 +1,8 @@
 package br.cefetmg.games;
 
-import static br.cefetmg.games.LevelManager.graph;
 import br.cefetmg.games.graphics.GraphRenderer;
 import br.cefetmg.games.graphics.AgentRenderer;
 import br.cefetmg.games.graphics.MetricsRenderer;
-import br.cefetmg.games.pathfinding.GraphGenerator;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -22,9 +20,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import java.util.ArrayList;
 
-public class HunterHunterGame extends ApplicationAdapter {
+public class TowerDefense extends ApplicationAdapter {
 
     private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
@@ -38,22 +35,17 @@ public class HunterHunterGame extends ApplicationAdapter {
 
     private Agent agent;
     private AgentRenderer agentRenderer;
-    private ArrayList<Torre> torres = new ArrayList<Torre>();
+
     private final String windowTitle;
     private boolean debugMode = false;
-    private boolean constructionMode = false;
     private MetricsRenderer metricsRenderer;
     private boolean showingMetrics;
 
-    public HunterHunterGame() {
-        this.windowTitle = "Hunter x Hunter (%d)";
+    public TowerDefense() {
+        this.windowTitle = "TowerDefense (%d)";
         showingMetrics = true;
     }
 
-    public GraphRenderer getGraphRenderer() {
-        return graphRenderer;
-    }
-    
     @Override
     public void create() {
         batch = new SpriteBatch();
@@ -67,7 +59,7 @@ public class HunterHunterGame extends ApplicationAdapter {
         viewport = new ScreenViewport(camera);
 
         // Carrega o mapa
-        tiledMap = LevelManager.LoadLevel("td-mapa-teste.tmx");
+        tiledMap = LevelManager.LoadLevel("tp-mapa-teste.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, batch);
         graphRenderer = new GraphRenderer(batch, shapeRenderer);
         graphRenderer.renderGraphToTexture(LevelManager.graph);
@@ -75,15 +67,14 @@ public class HunterHunterGame extends ApplicationAdapter {
         agentRenderer = new AgentRenderer(batch, camera, new Texture("gon.png"));
         agent = new Agent(
                 new Vector2(
-                        LevelManager.tileWidth / 2, LevelManager.totalPixelHeight/2),
+                        LevelManager.tileWidth / 2,
+                        (float) Math.random() * LevelManager.totalPixelHeight),
                 Color.FIREBRICK
         );
 
         metricsRenderer = new MetricsRenderer(batch, shapeRenderer,
                 new BitmapFont());
 
-        agent.setGoal(LevelManager.totalPixelWidth-1, LevelManager.totalPixelHeight/2);
-		
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyUp(int keycode) {
@@ -110,42 +101,20 @@ public class HunterHunterGame extends ApplicationAdapter {
                 if (keycode == Input.Keys.M) {
                     showingMetrics = !showingMetrics;
                 }
-                if (keycode == Input.Keys.G) {
-                    graphRenderer = new GraphRenderer(batch, shapeRenderer);
-                    graphRenderer.renderGraphToTexture(LevelManager.graph);
-                }
                 if (keycode == Input.Keys.D) {
                     debugMode = !debugMode;
                 }
-                if (keycode == Input.Keys.C){
-                    constructionMode = !constructionMode;
-                }
                 return false;
             }
-          
+
             @Override
             public boolean touchDown(int x, int y, int pointer, int button) {
                 Vector2 clique = new Vector2(x, y);
                 viewport.unproject(clique);
-                
+
                 // Botão ESQUERDO: posiciona objetivo
-                
-                //else if(upgradeMode)
-                    //torre.upgradeTorre((int) clique.x , (int) clique.y);
                 if (button == Input.Buttons.LEFT) {
-                    if (constructionMode){
-                    //Torre Aux = new Torre();
-                    //Aux.setTorre((int) clique.x, (int) clique.y);
-                    //torres.add(Aux);
-                        System.out.println("Era para ter ficado como Obstaculo");
-                        LevelManager.graph.getNodeAtCoordinates((int) clique.x, (int) clique.y).setIsObstacle(true);
-                        LevelManager.setGraph( GraphGenerator.generateGraphAgain(LevelManager.graph.getAllNodes(),LevelManager.tiledMap));
-                        graphRenderer = new GraphRenderer(batch, shapeRenderer);
-                        graphRenderer.renderGraphToTexture(LevelManager.graph);
-                        constructionMode=!constructionMode;
-                    }
-                  //else
-                        //agent.setGoal((int) clique.x, (int) clique.y);
+                    agent.setGoal((int) clique.x, (int) clique.y);
                 }
                 return true;
             }

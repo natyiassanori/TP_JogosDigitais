@@ -92,7 +92,6 @@ public class Agent {
      * @param x coordenada x do ponteiro do mouse.
      * @param y coordenada y do ponteiro do mouse.
      */
-    
     public void setGoal(int x, int y) {
         TileNode startNode = LevelManager.graph
                 .getNodeAtCoordinates(
@@ -109,29 +108,12 @@ public class Agent {
 
             @Override
             public float estimate(TileNode n, TileNode n1) {
-                float xn = n.getPosition().x/LevelManager.tileWidth;
-                float yn = n.getPosition().y/LevelManager.tileHeight;
-                
-                float xn1 = n1.getPosition().x/LevelManager.tileWidth;
-                float yn1 = n1.getPosition().y/LevelManager.tileHeight;
-                
-                float dx = Math.abs(xn-xn1);
-                float dy = Math.abs(yn-yn1);
-                float diagonal = (float)Math.sqrt(2);
-                
-                float percurso = Math.max(dx,dy)+(diagonal-1)*Math.min(dx, dy);
-                
-                return percurso;
-                      /*
-                Vector2 v1,v2;
-                v1 = new Vector2(n.getPosition().x/LevelManager.tileWidth,n.getPosition().x/LevelManager.tileHeight);
-                v2 = new Vector2(n1.getPosition().x/LevelManager.tileWidth,n1.getPosition().x/LevelManager.tileHeight);
-                float CustoEuclidiano=v1.dst(v2);
-                //return CustoEuclidiano;
-                //Manhattan Diagonal
-                Vector2 Diagonal = new Vector2(Math.abs(v1.x - v2.x), Math.abs(v1.y- v2.y));
-                return (float) (CustoEuclidiano * (Diagonal.x + Diagonal.y) + ((Math.sqrt(2)-2)*(CustoEuclidiano)*Math.min(Diagonal.x,Diagonal.y)));
-                  */
+                Vector2 v1, v2;
+                v1 = new Vector2(n.getPosition().x / LevelManager.tileWidth, n.getPosition().x / LevelManager.tileHeight);
+                v2 = new Vector2(n1.getPosition().x / LevelManager.tileWidth, n1.getPosition().x / LevelManager.tileHeight);
+                float CustoEuclidiano = v1.dst(v2);
+                Vector2 Diagonal = new Vector2(Math.abs(v1.x - v2.x), Math.abs(v1.y - v2.y));
+                return (float) (CustoEuclidiano * (Diagonal.x + Diagonal.y) + ((Math.sqrt(2) - 2) * (CustoEuclidiano) * Math.min(Diagonal.x, Diagonal.y)));
             }
         }, path);
         pathIterator = path.iterator();
@@ -155,6 +137,11 @@ public class Agent {
         return shouldMove;
     }
 
+    /**
+     * Retorna se o agente está em um tile de água.
+     *
+     * @return
+     */
     public boolean isUnderWater() {
         return currentNode == null || nextNode == null
                 ? false
