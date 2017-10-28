@@ -22,7 +22,7 @@ public class TowerRenderer {
     }
     public void render(Tower tower){
             batch.begin();
-            batch.draw( tower.getTexture(), tower.position.coords.x, tower.position.coords.y);
+            batch.draw( tower.getTexture(), tower.position.coords.x - tower.getTexture().getHeight()/2, tower.position.coords.y - tower.getTexture().getHeight()/2);
             batch.end();
     }
     
