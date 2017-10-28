@@ -44,6 +44,10 @@ public class Tower {
         //type.;
     }
 
+    public Position getPosition() {
+        return position;
+    }
+
     public Texture getTexture() {
         switch (type) {
             case LINE:

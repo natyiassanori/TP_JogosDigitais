@@ -103,7 +103,7 @@ public class Agent {
 
         path.clear();
         pathFinder.metrics.reset();
-        // AQUI ESTAMOS CHAMANDO O ALGORITMO A* (instância pathFinder) 
+        // AQUI ESTAMOS CHAMANDO O ALGORITMO A* (instância pathFinder)
         pathFinder.searchConnectionPath(startNode, targetNode,
                 new Heuristic<TileNode>() {
                 

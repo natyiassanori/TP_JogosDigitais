@@ -149,6 +149,15 @@ public class HunterHunterGame extends ApplicationAdapter {
                     else
                         agent.setGoal((int) clique.x, (int) clique.y);
                 }
+                if (button == Input.Buttons.RIGHT) {
+                    for (Tower t : torres) {
+                        System.out.println(t.getPosition().coords.x +" "+ (int) clique.x +" "+ t.getPosition().coords.y +" "+ (int) clique.y);
+                        if (t.getPosition().coords.x == (int) clique.x && t.getPosition().coords.y == (int) clique.y) {
+                            t.upgradeTower();
+                            System.out.println("OK");
+                        }
+                    }
+                }
                 return true;
             }
         });
