@@ -28,11 +28,10 @@ public class Tower {
     }
     
     public void setTorre(int x, int y) {
-        //this.position.coords.y = y;
-        //this.position.coords.x = x;
         this.towerLevel = 1;
         this.type = TowerType.LINE;
         TileNode towerNode = LevelManager.graph.getNodeAtCoordinates(x, y);
+        this.position.coords = towerNode.getPosition();
         towerNode.setIsObstacle(true);
     }
     
