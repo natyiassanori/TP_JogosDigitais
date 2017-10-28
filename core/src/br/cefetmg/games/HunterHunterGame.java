@@ -82,7 +82,7 @@ public class HunterHunterGame extends ApplicationAdapter {
         metricsRenderer = new MetricsRenderer(batch, shapeRenderer,
                 new BitmapFont());
 
-        agent.setGoal(LevelManager.totalPixelWidth-1, LevelManager.totalPixelHeight/2);
+        //agent.setGoal(LevelManager.totalPixelWidth-1, LevelManager.totalPixelHeight/2);
 		
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
@@ -144,8 +144,8 @@ public class HunterHunterGame extends ApplicationAdapter {
                         graphRenderer.renderGraphToTexture(LevelManager.graph);
                         constructionMode=!constructionMode;
                     }
-                  //else
-                        //agent.setGoal((int) clique.x, (int) clique.y);
+                    else
+                        agent.setGoal((int) clique.x, (int) clique.y);
                 }
                 return true;
             }

@@ -39,6 +39,7 @@ public class LevelManager {
     
     public static void setGraph(TileGraph a){
         System.out.println("funcionou ???");
-        graph = a;
+        graph = new TileGraph(a.getAllNodes());
+        //graph = graph2;
     } 
 }

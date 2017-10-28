@@ -23,13 +23,12 @@ public class GraphGenerator {
         for (int i = 0; i < LevelManager.verticalTiles; i++) {
             for (int j = 0; j < LevelManager.horizontalTiles; j++) {
                 TileNode newNode = new TileNode();
-              newNode.setPosition(
+                newNode.setPosition(
                         new Vector2(
                                 j * LevelManager.tileWidth + LevelManager.tileWidth / 2,
                                 i * LevelManager.tileHeight + LevelManager.tileHeight / 2
                         )
                 );
-
                 nodes.add(newNode);
             }
         }
