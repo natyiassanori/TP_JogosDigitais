@@ -58,7 +58,6 @@ public class GraphGenerator {
         TileNode Copia = null;
         TileNode.reset();
         Array<TileNode> nodes2 = new Array<>();
-        TileNode Copia= new TileNode();
         for (int i = 0; i < aux1; i++) {
             for (int j = 0; j < aux2; j++) {
                 Copia = nodes.get(i * LevelManager.horizontalTiles + j);
