@@ -5,6 +5,7 @@ import br.cefetmg.games.graphics.GraphRenderer;
 import br.cefetmg.games.graphics.AgentRenderer;
 import br.cefetmg.games.graphics.MetricsRenderer;
 import br.cefetmg.games.pathfinding.GraphGenerator;
+import br.cefetmg.games.pathfinding.TileNode;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -138,10 +139,12 @@ public class HunterHunterGame extends ApplicationAdapter {
                     //Aux.setTorre((int) clique.x, (int) clique.y);
                     //torres.add(Aux);
                         System.out.println("Era para ter ficado como Obstaculo");
-                        LevelManager.graph.getNodeAtCoordinates((int) clique.x, (int) clique.y).setIsObstacle(true);
+                        TileNode node = LevelManager.graph.getNodeAtCoordinates((int) clique.x, (int) clique.y);
+                        node.setIsObstacle(!node.isObstacle());
                         LevelManager.setGraph( GraphGenerator.generateGraphAgain(LevelManager.graph.getAllNodes(),LevelManager.tiledMap));
                         graphRenderer = new GraphRenderer(batch, shapeRenderer);
                         graphRenderer.renderGraphToTexture(LevelManager.graph);
+                        metricsRenderer = new MetricsRenderer(batch, shapeRenderer, new BitmapFont());
                         constructionMode=!constructionMode;
                     }
                     else
