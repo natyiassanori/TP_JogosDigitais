@@ -151,8 +151,7 @@ public class HunterHunterGame extends ApplicationAdapter {
                 }
                 if (button == Input.Buttons.RIGHT) {
                     for (Tower t : torres) {
-                        System.out.println(t.getPosition().coords.x +" "+ (int) clique.x +" "+ t.getPosition().coords.y +" "+ (int) clique.y);
-                        if (t.getPosition().coords.x == (int) clique.x && t.getPosition().coords.y == (int) clique.y) {
+                        if (Math.abs(t.getPosition().coords.x - (int) clique.x) < 10 && Math.abs(t.getPosition().coords.y - (int) clique.y) < 10) {
                             t.upgradeTower();
                             System.out.println("OK");
                         }
