@@ -12,6 +12,7 @@ import com.badlogic.gdx.ai.pfa.DefaultGraphPath;
 import com.badlogic.gdx.ai.pfa.Heuristic;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder.Metrics;
+import com.badlogic.gdx.ai.pfa.indexed.IndexedGraph;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import java.util.Iterator;
@@ -24,7 +25,7 @@ public class Agent {
 
     public Position position;
     private final Algorithm seek;
-    private final IndexedAStarPathFinder pathFinder;
+    private IndexedAStarPathFinder pathFinder;
     private final DefaultGraphPath<TileConnection> path;
     private Iterator<TileConnection> pathIterator;
     private final Target steeringTarget;
@@ -48,7 +49,10 @@ public class Agent {
         this.facing = Facing.EAST;
         this.shouldMove = false;
     }
-
+    
+    public void updatePathFinder (IndexedGraph g) {
+        this.pathFinder = new IndexedAStarPathFinder(g, true);
+    }
     /**
      * Atualiza a posição do agente de acordo com seu objetivo de alto nível
      * (pathfinding).
@@ -135,6 +139,7 @@ public class Agent {
             }
         }, path);
         pathIterator = path.iterator();
+        System.out.println(path.nodes.size);
     }
 
     /**

@@ -178,6 +178,7 @@ public class HunterHunterGame extends ApplicationAdapter {
         graphRenderer = new GraphRenderer(batch, shapeRenderer);
         graphRenderer.renderGraphToTexture(LevelManager.graph);
         metricsRenderer = new MetricsRenderer(batch, shapeRenderer, new BitmapFont());
+        agent.updatePathFinder(LevelManager.graph);
     }
     
     @Override
