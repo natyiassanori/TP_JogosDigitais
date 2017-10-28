@@ -28,6 +28,10 @@ public class TileNode {
     public int getIndex() {
         return index;
     }
+    
+    public static void reset () {
+        Incrementer.reset();
+    }
 
     /**
      * @return the isObstacle
@@ -74,6 +78,10 @@ public class TileNode {
         public static int nextIndex() {
             return id++;
         }
+        public static void reset(){
+            id = 0;
+        }
+
     }
     
     public void createConnection(TileNode to, float cost) {

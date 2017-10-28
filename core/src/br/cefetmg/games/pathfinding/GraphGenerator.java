@@ -55,11 +55,13 @@ public class GraphGenerator {
     }
     
     public static TileGraph generateGraphAgain( Array<TileNode> nodes , TiledMap map) {
+        TileNode Aux = new TileNode();
+        Aux.reset();
         Array<TileNode> nodes2 = new Array<>();
         for (int i = 0; i < aux1; i++) {
             for (int j = 0; j < aux2; j++) {
                 TileNode Copia = nodes.get(i * LevelManager.horizontalTiles + j);
-                TileNode Aux = new TileNode(Copia.getPosition());
+                Aux = new TileNode(Copia.getPosition());
                 Aux.setIsObstacle( Copia.isObstacle() );
                 nodes2.add(Aux);
             }

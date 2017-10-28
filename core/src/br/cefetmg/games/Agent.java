@@ -111,6 +111,7 @@ public class Agent {
             public float estimate(TileNode n, TileNode n1) {
                 float xn = n.getPosition().x/LevelManager.tileWidth;
                 float yn = n.getPosition().y/LevelManager.tileHeight;
+                System.out.println(xn+" "+yn);
                 
                 float xn1 = n1.getPosition().x/LevelManager.tileWidth;
                 float yn1 = n1.getPosition().y/LevelManager.tileHeight;
