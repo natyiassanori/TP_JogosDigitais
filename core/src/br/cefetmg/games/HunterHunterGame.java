@@ -4,6 +4,7 @@ import static br.cefetmg.games.LevelManager.graph;
 import br.cefetmg.games.graphics.GraphRenderer;
 import br.cefetmg.games.graphics.AgentRenderer;
 import br.cefetmg.games.graphics.MetricsRenderer;
+import br.cefetmg.games.graphics.TowerRenderer;
 import br.cefetmg.games.pathfinding.GraphGenerator;
 import br.cefetmg.games.pathfinding.TileNode;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -36,10 +37,11 @@ public class HunterHunterGame extends ApplicationAdapter {
 
     private TiledMapRenderer tiledMapRenderer;
     private GraphRenderer graphRenderer;
-
+    private TowerRenderer towerRenderer;
+    
     private Agent agent;
     private AgentRenderer agentRenderer;
-    private ArrayList<Torre> torres = new ArrayList<Torre>();
+    private ArrayList<Tower> torres = new ArrayList<Tower>();
     private final String windowTitle;
     private boolean debugMode = false;
     private boolean constructionMode = false;
@@ -72,7 +74,9 @@ public class HunterHunterGame extends ApplicationAdapter {
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, batch);
         graphRenderer = new GraphRenderer(batch, shapeRenderer);
         graphRenderer.renderGraphToTexture(LevelManager.graph);
-
+        towerRenderer = new TowerRenderer(batch);
+        
+        
         agentRenderer = new AgentRenderer(batch, camera, new Texture("gon.png"));
         agent = new Agent(
                 new Vector2(
@@ -135,16 +139,11 @@ public class HunterHunterGame extends ApplicationAdapter {
                     //torre.upgradeTorre((int) clique.x , (int) clique.y);
                 if (button == Input.Buttons.LEFT) {
                     if (constructionMode){
-                    //Torre Aux = new Torre();
-                    //Aux.setTorre((int) clique.x, (int) clique.y);
-                    //torres.add(Aux);
+                        Tower Aux = new Tower();
+                        Aux.setTorre((int) clique.x, (int) clique.y);
+                        torres.add(Aux);
                         System.out.println("Era para ter ficado como Obstaculo");
-                        TileNode node = LevelManager.graph.getNodeAtCoordinates((int) clique.x, (int) clique.y);
-                        node.setIsObstacle(!node.isObstacle());
-                        LevelManager.setGraph( GraphGenerator.generateGraphAgain(LevelManager.graph.getAllNodes(),LevelManager.tiledMap));
-                        graphRenderer = new GraphRenderer(batch, shapeRenderer);
-                        graphRenderer.renderGraphToTexture(LevelManager.graph);
-                        metricsRenderer = new MetricsRenderer(batch, shapeRenderer, new BitmapFont());
+                        atualizaGrafo();
                         constructionMode=!constructionMode;
                     }
                     else
@@ -165,7 +164,14 @@ public class HunterHunterGame extends ApplicationAdapter {
     public void resize(int w, int h) {
         viewport.update(w, h);
     }
-
+    
+    public void atualizaGrafo(){
+        LevelManager.setGraph( GraphGenerator.generateGraphAgain(LevelManager.graph.getAllNodes(),LevelManager.tiledMap));
+        graphRenderer = new GraphRenderer(batch, shapeRenderer);
+        graphRenderer.renderGraphToTexture(LevelManager.graph);
+        metricsRenderer = new MetricsRenderer(batch, shapeRenderer, new BitmapFont());
+    }
+    
     @Override
     public void render() {
         Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -179,6 +185,7 @@ public class HunterHunterGame extends ApplicationAdapter {
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
         agentRenderer.render(agent);
+        towerRenderer.renderAll(torres); 
         if (showingMetrics) {
             metricsRenderer.render(agent.getPathFindingMetrics(),
                     LevelManager.graph.getNodeCount());
