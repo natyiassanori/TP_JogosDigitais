@@ -54,8 +54,8 @@ public class GraphGenerator {
     }
     
     public static TileGraph generateGraphAgain( Array<TileNode> nodes , TiledMap map) {
-        
-        TileNode Copia = null;
+        TileNode Copia= new TileNode();
+        Copia = null;
         TileNode.reset();
         Array<TileNode> nodes2 = new Array<>();
         for (int i = 0; i < aux1; i++) {
