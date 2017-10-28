@@ -31,6 +31,7 @@ public class Tower {
         this.towerLevel = 1;
         this.type = TowerType.LINE;
         TileNode towerNode = LevelManager.graph.getNodeAtCoordinates(x, y);
+        System.out.println(" "+towerNode.getPosition().x +" "+towerNode.getPosition().y);
         this.position.coords = towerNode.getPosition();
         towerNode.setIsObstacle(true);
     }

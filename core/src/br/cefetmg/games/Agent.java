@@ -62,7 +62,7 @@ public class Agent {
         if (position.coords.dst2(steeringTarget.coords) < MIN_DISTANCE_CONSIDERED_ZERO_SQUARED) {
             // procurar se temos outra conexão na nossa rota
             // e, caso afirmativo, definir o nó de chegada como novo target
-            if (shouldMove = pathIterator.hasNext()) {
+            if ( shouldMove = pathIterator.hasNext() ) {
                 TileConnection nextConnection = pathIterator.next();
                 nextNode = nextConnection.getToNode();
                 steeringTarget.coords = nextNode.getPosition();
