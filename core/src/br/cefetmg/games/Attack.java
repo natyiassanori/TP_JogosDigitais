@@ -22,7 +22,7 @@ public class Attack {
     private final Algorithm seek;
     //public Enemy enemy;
     
-    public Attack(int Damage, Tower a, int speed,Position position,Enemy enemy) {
+    public Attack(int Damage, Tower a, int speed,Position position/*,Enemy enemy*/) {
         this.Damage = Damage * a.towerLevel;
         this.towerType = a.type;
         this.speed = speed;
