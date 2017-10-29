@@ -193,8 +193,8 @@ public class HunterHunterGame extends ApplicationAdapter {
 
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
-        agentRenderer.render(agent);
-        towerRenderer.renderAll(torres); 
+        towerRenderer.renderAll(torres);
+        agentRenderer.render(agent); 
         if (showingMetrics) {
             metricsRenderer.render(agent.getPathFindingMetrics(),
                     LevelManager.graph.getNodeCount());
