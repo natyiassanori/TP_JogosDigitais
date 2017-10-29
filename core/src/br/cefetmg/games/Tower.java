@@ -7,9 +7,12 @@ package br.cefetmg.games;
 
 import br.cefetmg.games.movement.Position;
 import br.cefetmg.games.pathfinding.TileNode;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
 
 /**
  *
@@ -20,11 +23,12 @@ public class Tower {
     public Position position;
     public TowerType type;
     public int towerLevel;
+    public final float ActionZone;
     //public final TextureRegion texture;
     public static Texture texture_teste = new Texture("torre_temporaria.png");
 
     public Tower() {
-        
+        ActionZone = 48f;
     }
     
     public void setTorre(int x, int y) {
@@ -80,6 +84,13 @@ public class Tower {
                 return texture_teste;
         }
         return texture_teste;
+    }
+    
+    public void render (ShapeRenderer renderer) {
+        Circle circle = new Circle(this.position.coords, ActionZone);
+        renderer.identity();
+        renderer.setColor(Color.CHARTREUSE);
+        renderer.circle(circle.x, circle.y, circle.radius);
     }
 
 }

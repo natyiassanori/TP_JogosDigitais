@@ -151,7 +151,8 @@ public class HunterHunterGame extends ApplicationAdapter {
                 }
                 if (button == Input.Buttons.RIGHT) {
                     for (Tower t : torres) {
-                        if (Math.abs(t.getPosition().coords.x - (int) clique.x) < 10 && Math.abs(t.getPosition().coords.y - (int) clique.y) < 10) {
+                        System.out.println(t.getPosition().coords.x +" " + (int) clique.x);
+                        if (Math.abs(t.getPosition().coords.x - (int) clique.x) < 16 && Math.abs(t.getPosition().coords.y - (int) clique.y) < 16) {
                             t.upgradeTower();
                             System.out.println("OK");
                         }
@@ -203,6 +204,11 @@ public class HunterHunterGame extends ApplicationAdapter {
         if (debugMode) {
             batch.begin();
             graphRenderer.renderOffScreenedGraph();
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            for (Tower t : torres) {
+                t.render(shapeRenderer);
+            }
+            shapeRenderer.end();
             batch.end();
         }
 
