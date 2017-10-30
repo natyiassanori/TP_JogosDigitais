@@ -3,8 +3,13 @@ package br.cefetmg.games;
 import static br.cefetmg.games.LevelManager.graph;
 import br.cefetmg.games.graphics.GraphRenderer;
 import br.cefetmg.games.graphics.AgentRenderer;
+import br.cefetmg.games.graphics.BulletRenderer;
 import br.cefetmg.games.graphics.MetricsRenderer;
 import br.cefetmg.games.graphics.TowerRenderer;
+import br.cefetmg.games.movement.Bullet;
+import br.cefetmg.games.movement.BulletTarget;
+import br.cefetmg.games.movement.MovementAlgorithm;
+import br.cefetmg.games.movement.behavior.Follow;
 import br.cefetmg.games.pathfinding.GraphGenerator;
 import br.cefetmg.games.pathfinding.TileNode;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -22,6 +27,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.ArrayList;
@@ -48,6 +55,17 @@ public class HunterHunterGame extends ApplicationAdapter {
     private MetricsRenderer metricsRenderer;
     private boolean showingMetrics;
 
+    
+    private Array<Bullet> bullets;
+    private BulletRenderer bulletRender;
+    private BulletTarget objetivo;
+    private Follow buscar;
+    private MovementAlgorithm algoritmoCorrente;
+    private Array<MovementAlgorithm> algoritmos;
+    
+    
+    
+    
     public HunterHunterGame() {
         this.windowTitle = "Hunter x Hunter (%d)";
         showingMetrics = true;
@@ -55,6 +73,20 @@ public class HunterHunterGame extends ApplicationAdapter {
 
     public GraphRenderer getGraphRenderer() {
         return graphRenderer;
+    }
+    
+    
+    public Bullet novoAgente(Vector3 posicao) {
+        Bullet bullet = new Bullet(posicao,
+                new Color(
+                        (float) Math.random(),
+                        (float) Math.random(),
+                        (float) Math.random(), 1));
+        bullet.pose.orientacao = (float) (Math.random() * Math.PI * 2);
+        bullet.defineComportamento(buscar);
+
+        bullets.add(bullet);
+        return bullet;
     }
     
     @Override
@@ -76,6 +108,7 @@ public class HunterHunterGame extends ApplicationAdapter {
         graphRenderer.renderGraphToTexture(LevelManager.graph);
         towerRenderer = new TowerRenderer(batch);
         
+        bulletRender = new BulletRenderer(camera, batch);
         
         agentRenderer = new AgentRenderer(batch, camera, new Texture("gon.png"));
         agent = new Agent(
@@ -84,6 +117,16 @@ public class HunterHunterGame extends ApplicationAdapter {
                 Color.FIREBRICK
         );
 
+        metricsRenderer = new MetricsRenderer(batch, shapeRenderer,
+                new BitmapFont());
+        
+        Vector3 pos = new Vector3(LevelManager.tileWidth / 2, LevelManager.totalPixelHeight/2, 0);
+        objetivo = new BulletTarget(pos);
+        algoritmos = new Array<>();
+        buscar = new Follow(80);
+        buscar.alvo = objetivo;
+        algoritmos.add(buscar);
+        bullets = new Array<>();
         metricsRenderer = new MetricsRenderer(batch, shapeRenderer,
                 new BitmapFont());
 
@@ -144,6 +187,10 @@ public class HunterHunterGame extends ApplicationAdapter {
                         torres.add(Aux);
                         System.out.println("Era para ter ficado como Obstaculo");
                         atualizaGrafo();
+                        System.out.println("alvo22 " + buscar.alvo.getObjetivo().x + "," + buscar.alvo.getObjetivo().y);
+                        buscar.alvo=objetivo;
+                        System.out.println("alvo25 " + buscar.alvo.getObjetivo().x + "," + buscar.alvo.getObjetivo().y);
+                        novoAgente(new Vector3((int) clique.x, (int) clique.y, 0)).defineComportamento(buscar);
                         constructionMode=!constructionMode;
                     }
                     else
@@ -211,9 +258,33 @@ public class HunterHunterGame extends ApplicationAdapter {
             shapeRenderer.end();
             batch.end();
         }
+        
+        Vector3 pos = new Vector3();
+        pos.x = agent.position.coords.x;
+        pos.y = agent.position.coords.y;
+        pos.z = 0;
+        objetivo = new BulletTarget(pos);
+        
+        for (Bullet bullet : bullets) {
+                bulletRender.desenha(bullet);
+        }
+        float delta = Gdx.graphics.getDeltaTime();
+            atualizaAgentes(delta);
 
         Gdx.graphics.setTitle(
                 String.format(windowTitle, Gdx.graphics.getFramesPerSecond()));
+    }
+    
+    private void atualizaAgentes(float delta) {
+
+        // percorre a lista de agentes e os atualiza (agente.atualiza)
+        buscar.alvo=objetivo;
+        System.out.println("alvo: " + buscar.alvo.getObjetivo().x + "," + buscar.alvo.getObjetivo().y);
+        for (Bullet bullet : bullets) {
+            // atualiza lógica
+            bullet.atualiza(delta);
+        }
+        
     }
 
 }
